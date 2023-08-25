@@ -1,48 +1,40 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
-const MadLibsGame = () => {
-  const [noun, setNoun] = useState("");
-  const [adjective, setAdjective] = useState("");
-  const [verb, setVerb] = useState("");
-  const [story, setStory] = useState("");
-  const [isFilled, setIsFilled] = useState(false);
+const MadlibForm = ({ onSubmit }) => {
+  const [noun, setNoun] = useState('');
+  const [verb, setVerb] = useState('');
+  const [adjective, setAdjective] = useState('');
+  // Add more state variables for other inputs
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    if (name === "noun") {
-      setNoun(value);
-    } else if (name === "adjective") {
-      setAdjective(value);
-    } else if (name === "verb") {
-      setVerb(value);
-    }
-  };
-
-  const generateStory = () => {
-    if (noun && adjective && verb) {
-      const newStory = `MadLibs are everyone's ${adjective} way of passing ${noun} on a ${adjective} road trip.`;
-      setStory(newStory);
-      setIsFilled(true);
-    } else {
-      setIsFilled(false);
-    }
-  };
-
-  const playAgain = () => {
-    setNoun("");
-    setAdjective("");
-    setVerb("");
-    setStory("");
-    setIsFilled(false);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSubmit({ noun, verb, adjective }); // Pass collected inputs to parent
   };
 
   return (
-    <div>
-      <h2>MadLibs Game</h2>
-      <label>
-        Noun:
-        <input type="text" name="noun" value={noun} onChange={handleInputChange} />
-      </label>
-      <label>
-        Adjective:
-        < 
+    <form onSubmit={handleSubmit}>
+      <input
+        type="text"
+        placeholder="Noun"
+        value={noun}
+        onChange={(e) => setNoun(e.target.value)}
+      />
+      <input
+        type="text"
+        placeholder="Verb"
+        value={verb}
+        onChange={(e) => setVerb(e.target.value)}
+      />
+      <input
+        type="text"
+        placeholder="Adjective"
+        value={adjective}
+        onChange={(e) => setAdjective(e.target.value)}
+      />
+      {/* Add more input fields for other parts of speech */}
+      <button type="submit">Generate Story</button>
+    </form>
+  );
+};
+
+export default MadlibForm;
